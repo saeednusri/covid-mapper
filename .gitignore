@@ -1,0 +1,11 @@
+.DS_Store
+
+params.json
+app_key.json
+
+__pycache__/
+data/
+
+world.csv
+world.xlsx 
+~$world.xlsx
