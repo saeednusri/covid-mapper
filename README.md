@@ -1,1 +1,1 @@
-# covid-mapper
+# covid-dashboard
