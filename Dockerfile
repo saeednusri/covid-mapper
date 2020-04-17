@@ -1,5 +1,7 @@
 # get shiny serves plus tidyverse packages image
 FROM rocker/shiny-verse:latest
+ENV PORT 8080
+EXPOSE 3838
 
 # system libraries of general use
 RUN apt-get update && apt-get install -y \
@@ -10,10 +12,10 @@ RUN apt-get update && apt-get install -y \
     libcairo2-dev \
     libxt-dev \
     libssl-dev \
-    libssh2-1-dev 
-  
+    libssh2-1-dev
 
-# install R packages required 
+
+# install R packages required
 # (change it dependeing on the packages you need)
 RUN R -e "install.packages('shiny', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('shinydashboard', repos='http://cran.rstudio.com/')"
