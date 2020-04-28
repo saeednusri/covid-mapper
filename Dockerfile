@@ -1,7 +1,7 @@
 # get shiny serves plus tidyverse packages image
 FROM rocker/shiny-verse:latest
-ENV PORT 8080
-EXPOSE 3838
+ENV PORT 3838
+#EXPOSE 3838
 
 # system libraries of general use
 RUN apt-get update && apt-get install -y \

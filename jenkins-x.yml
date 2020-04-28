@@ -1,1 +1,37 @@
-buildPack: leap-python
+pipelineConfig:
+    pipelines:  
+      release:
+        promote:
+          replace: true
+          steps:
+          - dir: ./charts/datalake-cloud-functions
+            steps:
+            - sh: jx step changelog --version v\$(cat ../../VERSION)
+              name: changelog
+            - comment: release the helm chart
+              sh: jx step helm release
+              name: helm-release
+            - name: deploy-to-cloud-run
+              command: gcloud
+              args:
+                - config
+                - set
+                - project
+                - leap-opendata
+                - " && "
+                - gcloud
+                - --quiet
+                - --no-user-output-enabled
+                - components
+                - update
+                - " && "
+                - gcloud
+                - --quiet
+                - beta
+                - run
+                - deploy
+                - $APP_NAME
+                - --image=$DOCKER_REGISTRY/leap-0123/$APP_NAME:$PREVIEW_VERSION
+                - --region=us-central1
+                - --platform=managed
+  
