@@ -158,7 +158,7 @@ pipelineConfig:
                 image: maven
                 name: promote-helm-release
               - command: jx promote -b --all-auto --timeout 1h --version ${VERSION}
-                dir: /workspace/source/charts/node-vcx-server
+                dir: /workspace/source/charts/covid-mapper
                 image: maven
                 name: promote-jx-promote
       setVersion:
