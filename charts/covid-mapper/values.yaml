@@ -11,7 +11,7 @@ image:
 env:
 
 # enable this flag to use knative serve to deploy the app
-knativeDeploy: true
+knativeDeploy: false
 
 service:
   name: covid-mapper
@@ -37,5 +37,5 @@ livenessProbe:
 readinessProbe:
   periodSeconds: 10
   successThreshold: 1
-  failureThreshold: 3
+  failureThreshold: 1
   timeoutSeconds: 1
