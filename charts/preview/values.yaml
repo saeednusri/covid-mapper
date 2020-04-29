@@ -1,12 +1,14 @@
-
 expose:
   Annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-delete-policy: hook-succeeded
   config:
     exposer: Ingress
-    http: true
-    tlsacme: false
+    http: false
+    tlsSecretName: "cluster-tls-123leap-ca-p"
+    tlsacme: true
+    urltemplate: '"{{.Service}}-{{.Namespace}}.{{.Domain}}"'
+  production: true
 
 cleanup:
   Args:

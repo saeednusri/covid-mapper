@@ -31,10 +31,10 @@ pipelineConfig:
                 value: http://jenkins:8080
               - name: XDG_CONFIG_HOME
                 value: /home/jenkins
-            name: ''
+            name: ""
             resources:
               limits:
-                cpu: '1'
+                cpu: "1"
                 memory: 1Gi
               requests:
                 cpu: 400m
@@ -108,10 +108,10 @@ pipelineConfig:
                 value: http://jenkins:8080
               - name: XDG_CONFIG_HOME
                 value: /home/jenkins
-            name: ''
+            name: ""
             resources:
               limits:
-                cpu: '1'
+                cpu: "1"
                 memory: 1Gi
               requests:
                 cpu: 400m
@@ -157,15 +157,16 @@ pipelineConfig:
                 dir: /workspace/source/charts/covid-mapper
                 image: maven
                 name: promote-helm-release
-              - command:
-                  gcloud container images add-tag $DOCKER_REGISTRY/leap-0123/$APP_NAME:${VERSION}
-                  $DOCKER_REGISTRY/leap-0123/$APP_NAME:latest
-                dir: /workspace/source/charts/covid-mapper
+              - command: jx promote -b --all-auto --timeout 1h --version ${VERSION}
+                dir: /workspace/source/charts/node-vcx-server
                 image: maven
-                name: promote-update-latest-tag
+                name: promote-jx-promote
       setVersion:
         steps:
           - image: maven
             steps:
-              - name: tag-with-new-version
-                sh: jx step next-version --use-git-tag-only --tag
+              - comment: so we can retrieve the version in later steps
+                name: next-version
+                sh: echo \$(jx-release-version) > VERSION
+              - name: tag-version
+                sh: jx step tag --version \$(cat VERSION)
